@@ -20,7 +20,7 @@ def iniciar_jogo():
   # Inicializar e configurar jogo
   jogo = construir_jogo()
   personagem_jogador = jogo.registrarAgentePersonagem(Personagens.O_JOGADOR)
-  agente_jogador = construir_agente(TiposAgentes.PREPOSTO_HUMANO, Personagens.O_JOGADOR)
+  agente_jogador = construir_agente(TiposAgentes.AUTO_BFS, Personagens.O_JOGADOR)
   
   tempo_de_jogo = 0
   while not jogo.isFim():
@@ -40,7 +40,8 @@ def iniciar_jogo():
       tempo_corrente = ler_tempo()
       jogo.atualizarEstado(tempo_corrente - tempo_de_jogo)
       tempo_de_jogo += tempo_corrente
-    
+  
+  jogo.terminarJogo();
 
 if __name__ == '__main__':
     iniciar_jogo()

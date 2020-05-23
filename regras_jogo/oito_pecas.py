@@ -2,7 +2,12 @@ from regras_jogo.regras_abstratas import AbstractRegrasJogo;
 
 class OitoPecas(AbstractRegrasJogo):
   def __init__(self):
-    self.tabuleiro = [[2,3,1],[4,5,6],[7,8,0]]
+    self.tabuleiro = [[1,4,2],[3,5,0],[6,7,8],[]]
+    self.opcoes = []
+    self.borda = []
+    self.percorridos = []
+    self.tentativas = 0
+    # self.tabuleiro = [[1,0,2],[3,4,5],[6,7,8]]
     
   def registrarAgentePersonagem(self, personagem):
     """ Cria ou recupera id de um personagem agente.
@@ -32,7 +37,8 @@ class OitoPecas(AbstractRegrasJogo):
     EstadoJogoView é um objeto imutável ou uma cópia do jogo, de forma que
     sua manipulação direta não tem nenhum efeito no mundo de jogo real.
     """
-    return self.tabuleiro
+    game = self
+    return game
 
   def registrarProximaAcao(self, id_agente, acao):
     """ Informa ao jogo qual a ação de um jogador especificamente.
@@ -46,6 +52,7 @@ class OitoPecas(AbstractRegrasJogo):
       if j > 3 or j < 0:
         acao = mensagem_erro
       acao = mensagem_erro
+
     self.acao_jogador = acao
   
   def atualizarEstado(self, diferencial_tempo):
@@ -54,21 +61,19 @@ class OitoPecas(AbstractRegrasJogo):
     """
     from acoes import AcoesJogador
     mensagem_erro = 'Ação Inválida'
-
+    
     if self.acao_jogador == 'Ação Inválida':
       print(mensagem_erro) 
     else:
       if self.acao_jogador.tipo == AcoesJogador.MOVER:
         i, j = self.acao_jogador.parametros
-        i = i-1
-        j = j-1
 
         if j+1 <= 2:
           if self.tabuleiro[i][j+1] == 0:
             self.tabuleiro[i][j+1] = self.tabuleiro[i][j]
             self.tabuleiro[i][j] = 0
             
-        elif j-1 >= 1:
+        elif j-1 >= 0:
           if self.tabuleiro[i][j-1] == 0:
             self.tabuleiro[i][j-1] = self.tabuleiro[i][j]
             self.tabuleiro[i][j] = 0
@@ -82,16 +87,20 @@ class OitoPecas(AbstractRegrasJogo):
             self.tabuleiro[i+1][j] = self.tabuleiro[i][j]
             self.tabuleiro[i][j] = 0
             
-        elif i-1 >= 1:
+        elif i-1 >= 0:
           if self.tabuleiro[i-1][j] == 0:
             self.tabuleiro[i-1][j] = self.tabuleiro[i][j]
             self.tabuleiro[i][j] = 0
             
         else: 
           print(mensagem_erro) 
+    
   
   def terminarJogo(self):
     """ Faz procedimentos de fim de jogo, como mostrar placar final,
     gravar resultados, etc...
     """
+    print(self.tabuleiro[0])
+    print(self.tabuleiro[1])
+    print(self.tabuleiro[2])
     print('Vencedor !!!')

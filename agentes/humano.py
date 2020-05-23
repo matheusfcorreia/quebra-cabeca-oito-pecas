@@ -5,10 +5,9 @@ class AgentePrepostoESHumano(AgenteAbstrato):
     """ Inspeciona a disposicao dos elementos no objeto de visao e escreve
     na tela para o usuário saber o que seu agente está percebendo.
     """
-    tabuleiro = percepcao_mundo
-    print(tabuleiro[0])
-    print(tabuleiro[1])
-    print(tabuleiro[2])
+    print(percepcao_mundo.tabuleiro[0])
+    print(percepcao_mundo.tabuleiro[1])
+    print(percepcao_mundo.tabuleiro[2])
 
   def escolherProximaAcao(self):
     from acoes import AcaoJogador
