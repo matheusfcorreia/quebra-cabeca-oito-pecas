@@ -20,7 +20,7 @@ def iniciar_jogo():
   # Inicializar e configurar jogo
   jogo = construir_jogo()
   personagem_jogador = jogo.registrarAgentePersonagem(Personagens.O_JOGADOR)
-  agente_jogador = construir_agente(TiposAgentes.AUTO_DFS, Personagens.O_JOGADOR)
+  agente_jogador = construir_agente(TiposAgentes.AUTO_IDS, Personagens.O_JOGADOR)
   
   tempo_de_jogo = 0
   while not jogo.isFim():

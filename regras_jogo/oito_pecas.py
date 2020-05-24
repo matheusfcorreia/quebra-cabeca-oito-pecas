@@ -7,6 +7,7 @@ class OitoPecas(AbstractRegrasJogo):
     self.borda = []
     self.percorridos = []
     self.tentativas = 0
+    self.profundidade = input('Qual a profundidade máxima?  ')
     # self.tabuleiro = [[1,0,2],[3,4,5],[6,7,8]]
     
   def registrarAgentePersonagem(self, personagem):
