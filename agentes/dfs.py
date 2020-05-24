@@ -2,7 +2,7 @@ from agentes.abstrato import AgenteAbstrato
 from acoes import AcaoJogador
 from copy import deepcopy
 
-class AgentePrepostoBfs(AgenteAbstrato):
+class AgentePrepostoDfs(AgenteAbstrato):
   resolvido = False
   jogadas = []
   caminho = [[[0,1,2],[3,4,5],[6,7,8]]]
@@ -85,7 +85,7 @@ class AgentePrepostoBfs(AgenteAbstrato):
     print('\n')
 
   def escolherProximaAcao(self):
-    self.borda.append(self.tabuleiro) 
+    self.borda.insert(0, self.tabuleiro) 
 
     #Verifica se o jogo ja foi resolvido
     if self.resolvido is False:
@@ -115,14 +115,18 @@ class AgentePrepostoBfs(AgenteAbstrato):
 
             self.percorridos.pop(-1)
           break
-        #Se não for o estado final, gera os estados filhos e os adiciona ao fim borda
+        #Se não for o estado final, gera os estados filhos e os adiciona ao início borda
         else: 
           filhos = [
             self.gerarEstados(opcao, estado_temp, False) for opcao in self.validarOpcoes(estado_temp)
           ]
+
           for filho in filhos:
-            if filho[:3] is not self.borda: self.borda.append(filho)
-    
+            ja_percorrido = False
+            for percorrido in self.percorridos:
+              if filho[:3] == percorrido[:3]: ja_percorrido = True
+            if ja_percorrido == False: self.borda.insert(0, filho)
+
     acao = AcaoJogador.mover(self.caminho[0][3][0], self.caminho[0][3][1])
     self.caminho.pop(0)
     return acao

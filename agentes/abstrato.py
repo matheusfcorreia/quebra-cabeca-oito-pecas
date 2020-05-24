@@ -25,10 +25,13 @@ def construir_agente(*args, **kwargs):
   from agentes.tipos import TiposAgentes
   from agentes.humano import AgentePrepostoESHumano
   from agentes.bfs import AgentePrepostoBfs
+  from agentes.dfs import AgentePrepostoDfs
   
   if args[0] == TiposAgentes.PREPOSTO_HUMANO:
     return AgentePrepostoESHumano()
   elif args[0] == TiposAgentes.AUTO_BFS:
     return AgentePrepostoBfs()
+  elif args[0] == TiposAgentes.AUTO_DFS:
+    return AgentePrepostoDfs()
   else:
     raise NotImplementedError()
