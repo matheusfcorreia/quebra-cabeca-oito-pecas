@@ -27,6 +27,8 @@ Mover([linha, coluna]);
 
 Sendo linha e coluna referentes a posição do elemento a ser movido (valores de linhas e colunas baseados em posições de elementos em listas da linguagem python).
 
+**Resultados de Ações na Prática**
 ![Resultados de Ações na Prática](/assets/estados.png)
 
+**Exemplo de Árvore até o Objetivo**
 ![Exemplo de Árvore até o Objetivo](/assets/arvore.png)
