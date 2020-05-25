@@ -5,6 +5,7 @@ class TiposAgentes(Enum):
     AUTO_BFS = 'Automático BFS'
     AUTO_DFS = 'Automático DFS'
     AUTO_IDS = 'Automático IDS'
+    AUTO_DLS = 'Automático DLS'
     
     # adicionar outros tipos de agentes de acordo com
     # o necessário
