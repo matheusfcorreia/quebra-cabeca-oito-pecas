@@ -28,6 +28,7 @@ def construir_agente(*args, **kwargs):
   from agentes.dfs import AgentePrepostoDfs
   from agentes.ids import AgentePrepostoIds
   from agentes.dls import AgentePrepostoDls
+  from agentes.gulosa import AgentePrepostoGuloso
   
   if args[0] == TiposAgentes.PREPOSTO_HUMANO:
     return AgentePrepostoESHumano()
@@ -39,5 +40,7 @@ def construir_agente(*args, **kwargs):
     return AgentePrepostoIds()
   elif args[0] == TiposAgentes.AUTO_DLS:
     return AgentePrepostoDls()
+  elif args[0] == TiposAgentes.AUTO_GULOSO:
+    return AgentePrepostoGuloso()
   else:
     raise NotImplementedError()

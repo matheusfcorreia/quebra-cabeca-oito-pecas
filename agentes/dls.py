@@ -85,7 +85,7 @@ class AgentePrepostoDls(AgenteAbstrato):
     
     print('\n')
 
-  def escolherProximaAcao(self):
+  def escolherProximaAcao(self, pecas_fora):
     self.borda.insert(0, [self.tabuleiro, 0]) 
     
     altura = 0

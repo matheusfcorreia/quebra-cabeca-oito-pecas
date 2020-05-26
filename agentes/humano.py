@@ -9,7 +9,7 @@ class AgentePrepostoESHumano(AgenteAbstrato):
     print(percepcao_mundo.tabuleiro[1])
     print(percepcao_mundo.tabuleiro[2])
 
-  def escolherProximaAcao(self):
+  def escolherProximaAcao(self, pecas_fora):
     from acoes import AcaoJogador
     # try:
     i, j = (int(s) for s in input("Qual peça deseja mover (linhas, coluna)? ").split(',', 2))

@@ -21,7 +21,7 @@ Mover([0, 0]) -> OitoPecas([[vazio, 1, 2], [3, 4, 5], [6, 7, 8]])
 
 #### Descrição das Ações
 
-Única ação é a MOVER
+Única ação é a MOVER. Está ação recebe a posição do elemento que o jogador deseja movimentar, sempre verificando se é uma ação válida, ou seja, verifica se a peça selecionada pode ser movimentada de acordo com as regras do jogo.
 
 Mover([linha, coluna]); 
 
@@ -32,3 +32,14 @@ Sendo linha e coluna referentes a posição do elemento a ser movido (valores de
 
 **Exemplo de Árvore até o Objetivo**
 ![Exemplo de Árvore até o Objetivo](/assets/arvore.png)
+
+### > **Heurística do Problema** 
+
+Como avaliação heurística, foi escolhido o sistema de contagem de peças fora de sua posição, sendo avaliado, antes de cada ação, se aquele movimento diminuiria ou não a quantidade de peças fora do lugar. Sendo assim:
+  - AvaliarMovimento(estado_pós_movimento) -> retorna quantidade de peças fora de posição;
+
+Em casos que não há uma diminuição visível no número de peças fora de posição, o algorítmo de escolher uma ação aleatoriamente, evitando estados já percorridos.
+
+#### Avaliação da Heurística
+
+Apesar de ser uma heurística bem simples, é totalmente válida e consistente, por conta da busca direta pelo posicionamento ideal das peças. Combinada com um algorítmo de busca com memória, torna-se uma estratégia bem viável, evitando loopings e indo direto ao ponto final desejado, diminuindo o deperdício de recursos na aberto de estados desnecessários.

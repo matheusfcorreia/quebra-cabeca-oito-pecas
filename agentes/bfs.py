@@ -84,7 +84,7 @@ class AgentePrepostoBfs(AgenteAbstrato):
     
     print('\n')
 
-  def escolherProximaAcao(self):
+  def escolherProximaAcao(self, pecas_fora):
     self.borda.append(self.tabuleiro) 
 
     #Verifica se o jogo ja foi resolvido

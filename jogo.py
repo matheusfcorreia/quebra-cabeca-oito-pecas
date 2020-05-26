@@ -20,11 +20,10 @@ def iniciar_jogo():
   # Inicializar e configurar jogo
   jogo = construir_jogo()
   personagem_jogador = jogo.registrarAgentePersonagem(Personagens.O_JOGADOR)
-  agente_jogador = construir_agente(TiposAgentes.PREPOSTO_HUMANO, Personagens.O_JOGADOR)
+  agente_jogador = construir_agente(TiposAgentes.AUTO_GULOSO, Personagens.O_JOGADOR)
   
   tempo_de_jogo = 0
   while not jogo.isFim():
-      
     # Mostrar mundo ao jogador
     ambiente_perceptivel = jogo.gerarCampoVisao(personagem_jogador)
     agente_jogador.adquirirPercepcao(ambiente_perceptivel)

@@ -2,10 +2,11 @@ from agentes.abstrato import AgenteAbstrato
 from acoes import AcaoJogador
 from copy import deepcopy
 
-class AgentePrepostoDfs(AgenteAbstrato):
+class AgentePrepostoGuloso(AgenteAbstrato):
   resolvido = False
   jogadas = []
   caminho = [[[0,1,2],[3,4,5],[6,7,8]]]
+
   def validarOpcoes(self, tabuleiro):
     opcoes = []
     for i in range(len(tabuleiro)):
@@ -54,17 +55,32 @@ class AgentePrepostoDfs(AgenteAbstrato):
   def isFim(self, estado):
     """ Boolean indicando fim de jogo em True.
     """
-    resultado = True
-    if estado[0][0]!=0: resultado = False
-    if estado[0][1]!=1: resultado = False
-    if estado[0][2]!=2: resultado = False
-    if estado[1][0]!=3: resultado = False
-    if estado[1][1]!=4: resultado = False
-    if estado[1][2]!=5: resultado = False
-    if estado[2][0]!=6: resultado = False
-    if estado[2][1]!=7: resultado = False
-    if estado[2][2]!=8: resultado = False
-    # if resultado is True: print(estado)
+    resultado = [True, 0]
+    if estado[0][0]!=0: 
+      resultado[0] = False 
+      resultado[1] = resultado[1] + 1
+    if estado[0][2]!=2: 
+      resultado[0] = False
+      resultado[1] = resultado[1] + 1
+    if estado[1][0]!=3: 
+      resultado[0] = False
+      resultado[1] = resultado[1] + 1
+    if estado[1][1]!=4: 
+      resultado[0] = False
+      resultado[1] = resultado[1] + 1
+    if estado[1][2]!=5: 
+      resultado[0] = False
+      resultado[1] = resultado[1] + 1
+    if estado[2][0]!=6: 
+      resultado[0] = False
+      resultado[1] = resultado[1] + 1
+    if estado[2][1]!=7: 
+      resultado[0] = False
+      resultado[1] = resultado[1] + 1
+    if estado[2][2]!=8: 
+      resultado[0] = False
+      resultado[1] = resultado[1] + 1
+    
     return resultado
 
   def adquirirPercepcao(self, percepcao_mundo):
@@ -84,17 +100,30 @@ class AgentePrepostoDfs(AgenteAbstrato):
     
     print('\n')
 
-  def escolherProximaAcao(self, pecas_fora):
+  def escolherProximaAcao(self):
     self.borda.insert(0, self.tabuleiro) 
 
     #Verifica se o jogo ja foi resolvido
     if self.resolvido is False:
       #Percorre todos estados da borda até encontrar o estado final
+      menos_pecas_fora = 9
       while len(self.borda) > 0:
-        estado_temp = self.borda.pop(0)
-        self.percorridos.append(estado_temp)
+        estado_temp = False
+        fim = False
 
-        if self.isFim(estado_temp) == True: 
+        # Seleção do estado a ser buscado pela sua diminuição de elementos fora do lugar
+        if len(self.borda) == 1: estado_temp = self.borda.pop(0)
+        else:
+          for i in range(len(self.borda)-1):
+            fim = self.isFim(self.borda[i])
+            if fim[1] < menos_pecas_fora: 
+              menos_pecas_fora = fim[1]
+              estado_temp = self.borda.pop(i)
+  
+          if estado_temp == False: estado_temp = self.borda.pop(0)
+        # print(menos_pecas_fora)
+        self.percorridos.append(estado_temp)
+        if self.isFim(estado_temp)[0] == True: 
           self.resolvido = True
           print('Resolvi o puzzle!')
           print('Tentativas: ', len(self.jogadas))
@@ -122,11 +151,9 @@ class AgentePrepostoDfs(AgenteAbstrato):
           ]
 
           for filho in filhos:
-            ja_percorrido = False
-            for percorrido in self.percorridos:
-              if filho[:3] == percorrido[:3]: ja_percorrido = True
-            if ja_percorrido == False: self.borda.insert(0, filho)
-
+            self.borda.insert(0, filho)
+              
+    
     acao = AcaoJogador.mover(self.caminho[0][3][0], self.caminho[0][3][1])
     self.caminho.pop(0)
     return acao
