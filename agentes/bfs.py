@@ -84,7 +84,23 @@ class AgentePrepostoBfs(AgenteAbstrato):
     
     print('\n')
 
-  def escolherProximaAcao(self, pecas_fora):
+  def gerarCaminho(self, tabuleiro, caminho, percorridos):
+    caminho_aux =  deepcopy(caminho)
+    while caminho_aux[0][:3] != tabuleiro:
+      ult_percorrido = percorridos[-1]
+
+      if self.isFim(ult_percorrido[:3]) == True:
+        caminho_aux.insert(0,ult_percorrido[3])
+        
+      else:
+        for percorrido in percorridos:
+          if percorrido[:3] == caminho_aux[0][:3]:
+            if percorrido[:3] is not caminho_aux: caminho_aux.insert(0, percorrido[3])
+
+      percorridos.pop(-1)
+    return caminho_aux
+
+  def escolherProximaAcao(self):
     self.borda.append(self.tabuleiro) 
 
     #Verifica se o jogo ja foi resolvido
@@ -98,22 +114,10 @@ class AgentePrepostoBfs(AgenteAbstrato):
           self.resolvido = True
           print('Resolvi o puzzle!')
           print('Tentativas: ', len(self.jogadas))
-          
+          # Uni as referências até o estado final na variável caminho
           self.tabuleiro.pop(3)
-          #Após encontrar o resultado, encontra o caminho até o final desejado
-          #  e os adiciona na variável caminho
-          while self.caminho[0][:3] != self.tabuleiro:
-            ult_percorrido = self.percorridos[-1]
-
-            if self.isFim([ult_percorrido[0], ult_percorrido[1], ult_percorrido[2]]) == True:
-              self.caminho.insert(0,ult_percorrido[3])
-              
-            else:
-              for percorrido in self.percorridos:
-                if percorrido[:3] == self.caminho[0][:3]:
-                  if percorrido[:3] is not self.caminho: self.caminho.insert(0, percorrido[3])
-
-            self.percorridos.pop(-1)
+          self.caminho = self.gerarCaminho(self.tabuleiro, self.caminho, self.percorridos)
+          
           break
         #Se não for o estado final, gera os estados filhos e os adiciona ao fim borda
         else: 

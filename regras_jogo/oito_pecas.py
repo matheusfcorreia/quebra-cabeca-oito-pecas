@@ -8,7 +8,7 @@ class OitoPecas(AbstractRegrasJogo):
     self.percorridos = []
     self.tentativas = 0
     self.profundidade = input('Qual a profundidade máxima?  ')
-    # self.tabuleiro = [[1,0,2],[3,5,4],[6,7,8],[]]
+    # self.tabuleiro = [[6,2,7],[4,0,5],[8,1,3],[]]
     
   def registrarAgentePersonagem(self, personagem):
     """ Cria ou recupera id de um personagem agente.

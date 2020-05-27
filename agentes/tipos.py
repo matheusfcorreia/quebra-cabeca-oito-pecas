@@ -7,6 +7,7 @@ class TiposAgentes(Enum):
     AUTO_IDS = 'Automático IDS'
     AUTO_DLS = 'Automático DLS'
     AUTO_GULOSO = 'Automático GULOSO'
+    AUTO_ESTRELA = 'Automático ESTRELA'
     
     # adicionar outros tipos de agentes de acordo com
     # o necessário
