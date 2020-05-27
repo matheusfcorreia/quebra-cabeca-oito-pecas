@@ -6,6 +6,7 @@ class AgentePrepostoDls(AgenteAbstrato):
   resolvido = False
   jogadas = []
   caminho = [[[0,1,2],[3,4,5],[6,7,8]]]
+  
   def validarOpcoes(self, tabuleiro):
     opcoes = []
     for i in range(len(tabuleiro)):
@@ -85,6 +86,7 @@ class AgentePrepostoDls(AgenteAbstrato):
     
     print('\n')
 
+
   def gerarCaminho(self, tabuleiro, caminho, percorridos):
     caminho_aux =  deepcopy(caminho)
     while caminho_aux[0][:3] != tabuleiro:
@@ -101,31 +103,32 @@ class AgentePrepostoDls(AgenteAbstrato):
       percorridos.pop(-1)
     return caminho_aux
 
-  def escolherProximaAcao(self):
-    self.borda.insert(0, [self.tabuleiro, 0]) 
+
+  def buscaDls(self, borda, tabuleiro, percorridos, caminho):
+    borda.insert(0, [tabuleiro, 0]) 
     
     altura = 0
     #Verifica se o jogo ja foi resolvido
     if self.resolvido is False:
       #Percorre todos estados da borda até encontrar o estado final
-      while len(self.borda) > 0:
+      while len(borda) > 0:
         #Verifica se a altura do estado aberto está dentro do padrão exigido
-        if self.borda[0][1] <= int(self.profundidade):
-          altura = self.borda[0][1] 
-          estado_temp = self.borda.pop(0)[0]
+        if borda[0][1] <= int(self.profundidade):
+          altura = borda[0][1] 
+          estado_temp = borda.pop(0)[0]
         else: 
-          self.borda.pop(0)
-          altura = self.borda[0][1]
-          estado_temp = self.borda.pop(0)[0]
+          borda.pop(0)
+          altura = borda[0][1]
+          estado_temp = borda.pop(0)[0]
 
-        self.percorridos.append(estado_temp)
+        percorridos.append(estado_temp)
         if self.isFim(estado_temp) == True: 
           self.resolvido = True
           print('Resolvi o puzzle!')
           print('Tentativas: ', len(self.jogadas))
           # Uni as referências até o estado final na variável caminho
-          self.tabuleiro.pop(3)
-          self.caminho = self.gerarCaminho(self.tabuleiro, self.caminho, self.percorridos)
+          tabuleiro.pop(3)
+          return self.gerarCaminho(tabuleiro, caminho, percorridos)
           
           break
         #Se não for o estado final, gera os estados filhos e os adiciona ao início borda
@@ -136,11 +139,17 @@ class AgentePrepostoDls(AgenteAbstrato):
 
           for filho in filhos:
             ja_percorrido = False
-            for percorrido in self.percorridos:
+            for percorrido in percorridos:
               if filho[:3] == percorrido[:3]: ja_percorrido = True
             if ja_percorrido == False: 
-              self.borda.insert(0, [filho, altura])
+              borda.insert(0, [filho, altura])
               altura = altura + 1
+
+
+  def escolherProximaAcao(self):
+    #Verifica se o jogo ja foi resolvido
+    if not self.resolvido:
+      self.caminho = self.buscaDls(self.borda, self.tabuleiro, self.percorridos, self.caminho)
 
     acao = AcaoJogador.mover(self.caminho[0][3][0], self.caminho[0][3][1])
     self.caminho.pop(0)

@@ -100,23 +100,24 @@ class AgentePrepostoBfs(AgenteAbstrato):
       percorridos.pop(-1)
     return caminho_aux
 
-  def escolherProximaAcao(self):
-    self.borda.append(self.tabuleiro) 
+
+  def buscaBfs(self, borda, tabuleiro, percorridos, caminho):
+    borda.append(tabuleiro) 
 
     #Verifica se o jogo ja foi resolvido
-    if self.resolvido is False:
+    if not self.resolvido:
       #Percorre todos estados da borda até encontrar o estado final
-      while len(self.borda) > 0:
-        estado_temp = self.borda.pop(0)
-        self.percorridos.append(estado_temp)
+      while len(borda) > 0:
+        estado_temp = borda.pop(0)
+        percorridos.append(estado_temp)
 
         if self.isFim(estado_temp) == True: 
           self.resolvido = True
           print('Resolvi o puzzle!')
           print('Tentativas: ', len(self.jogadas))
           # Uni as referências até o estado final na variável caminho
-          self.tabuleiro.pop(3)
-          self.caminho = self.gerarCaminho(self.tabuleiro, self.caminho, self.percorridos)
+          tabuleiro.pop(3)
+          return self.gerarCaminho(tabuleiro, caminho, percorridos)
           
           break
         #Se não for o estado final, gera os estados filhos e os adiciona ao fim borda
@@ -125,7 +126,13 @@ class AgentePrepostoBfs(AgenteAbstrato):
             self.gerarEstados(opcao, estado_temp, False) for opcao in self.validarOpcoes(estado_temp)
           ]
           for filho in filhos:
-            if filho[:3] is not self.borda: self.borda.append(filho)
+            if filho[:3] is not borda: borda.append(filho)
+
+
+  def escolherProximaAcao(self):
+    #Verifica se o jogo ja foi resolvido
+    if not self.resolvido:
+      self.caminho = self.buscaBfs(self.borda, self.tabuleiro, self.percorridos, self.caminho)
     
     acao = AcaoJogador.mover(self.caminho[0][3][0], self.caminho[0][3][1])
     self.caminho.pop(0)

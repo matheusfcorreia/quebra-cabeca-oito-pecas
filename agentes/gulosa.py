@@ -116,43 +116,42 @@ class AgentePrepostoGuloso(AgenteAbstrato):
       percorridos.pop(-1)
     return caminho_aux
 
-  def escolherProximaAcao(self):
-    self.borda.insert(0, self.tabuleiro) 
-
+  def buscaGulosa(self, borda, tabuleiro, percorridos, caminho):
+    borda.insert(0, tabuleiro) 
     #Verifica se o jogo ja foi resolvido
-    if self.resolvido is False:
+    if not self.resolvido:
       #Percorre todos estados da borda até encontrar o estado final
       menos_pecas_fora = 9
-      while len(self.borda) > 0:
+      while len(borda) > 0:
         estado_temp = False
         fim = False
 
         # Seleção do estado a ser buscado pela sua diminuição de elementos fora do lugar
-        if len(self.borda) == 1: estado_temp = self.borda.pop(0)
+        if len(borda) == 1: estado_temp = borda.pop(0)
         else:
-          for i in range(len(self.borda)-1):
-            fim = self.isFim(self.borda[i])
+          for i in range(len(borda)-1):
+            fim = self.isFim(borda[i])
             if fim[1] < menos_pecas_fora: 
               menos_pecas_fora = fim[1]
-              estado_temp = self.borda.pop(i)
+              estado_temp = borda.pop(i)
             
           if estado_temp == False:
-            estado_temp = self.borda.pop(0) 
-            for i in range(len(self.borda)-1):
-              fim = self.isFim(self.borda[i])
+            estado_temp = borda.pop(0) 
+            for i in range(len(borda)-1):
+              fim = self.isFim(borda[i])
               if self.isFim(estado_temp)[1] < fim[1]:
-                estado_temp = self.borda.pop(i) 
+                estado_temp = borda.pop(i) 
 
         #Limpa a borda para a seleção do próximo elemento mais saboroso       
-        self.borda.clear()
-        self.percorridos.append(estado_temp)
+        borda.clear()
+        percorridos.append(estado_temp)
         if self.isFim(estado_temp)[0] == True: 
           self.resolvido = True
           print('Resolvi o puzzle!')
           print('Tentativas: ', len(self.jogadas))
           # Uni as referências até o estado final na variável caminho
-          self.tabuleiro.pop(3)
-          self.caminho = self.gerarCaminho(self.tabuleiro, self.caminho, self.percorridos)
+          tabuleiro.pop(3)
+          return self.gerarCaminho(tabuleiro, caminho, percorridos)
           
           break
         #Se não for o estado final, gera os estados filhos e os adiciona ao início borda
@@ -162,8 +161,12 @@ class AgentePrepostoGuloso(AgenteAbstrato):
           ]
 
           for filho in filhos:
-            self.borda.insert(0, filho)
-              
+            borda.insert(0, filho)
+
+
+  def escolherProximaAcao(self):
+    if not self.resolvido:
+      self.caminho = self.buscaGulosa(self.borda, self.tabuleiro, self.percorridos, self.caminho)
     
     acao = AcaoJogador.mover(self.caminho[0][3][0], self.caminho[0][3][1])
     self.caminho.pop(0)

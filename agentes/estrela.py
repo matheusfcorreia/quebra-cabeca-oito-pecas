@@ -100,48 +100,49 @@ class AgentePrepostoEstrela(AgenteAbstrato):
     
     print('\n')
 
-  def escolherProximaAcao(self):
-    self.borda.insert(0, self.tabuleiro) 
+  def gerarCaminho(self, tabuleiro, caminho, percorridos):
+    caminho_aux =  deepcopy(caminho)
+    while caminho_aux[0][:3] != tabuleiro:
+      ult_percorrido = percorridos[-1]
 
-    #Verifica se o jogo ja foi resolvido
-    if self.resolvido is False:
+      if self.isFim(ult_percorrido[:3]) == True:
+        caminho_aux.insert(0,ult_percorrido[3])
+        
+      else:
+        for percorrido in percorridos:
+          if percorrido[:3] == caminho_aux[0][:3]:
+            if percorrido[:3] is not caminho_aux: caminho_aux.insert(0, percorrido[3])
+
+      percorridos.pop(-1)
+    return caminho_aux
+
+  def buscaEstrela(self, borda, tabuleiro, percorridos, caminho):
+    borda.insert(0, tabuleiro) 
+    if not self.resolvido:  
       #Percorre todos estados da borda até encontrar o estado final
-      while len(self.borda) > 0:
+      while len(borda) > 0:
         estado_temp = False
+        
         # Seleção do estado a ser buscado pela sua diminuição de elementos fora do lugar
-        if len(self.borda) == 1: estado_temp = self.borda.pop(0)
+        if len(borda) == 1: estado_temp = borda.pop(0)
         else:
-          indice = len(self.borda) - 1 
-          estado_temp = self.borda[-1]
-          for i in range(len(self.borda)-1):
-            if self.isFim(self.borda[i])[1] < self.isFim(estado_temp)[1]:
-              estado_temp = self.borda[i] 
+          indice = len(borda) - 1 
+          estado_temp = borda[-1]
+          for i in range(len(borda)-1):
+            if self.isFim(borda[i])[1] < self.isFim(estado_temp)[1]:
+              estado_temp = borda[i] 
               indice = deepcopy(i)
-          self.borda.pop(indice)
-        self.percorridos.append(estado_temp)
-        print('estado_temp: ', estado_temp[:3])
-        print('borda: ', self.borda)
-        print('\n')
+          borda.pop(indice)
+        percorridos.append(estado_temp)
+       
         if self.isFim(estado_temp)[0] == True: 
           self.resolvido = True
           print('Resolvi o puzzle!')
           print('Tentativas: ', len(self.jogadas))
+          # Uni as referências até o estado final na variável caminho
+          tabuleiro.pop(3)
+          return self.gerarCaminho(tabuleiro, caminho, percorridos)
           
-          self.tabuleiro.pop(3)
-          #Após encontrar o resultado, encontra o caminho até o final desejado
-          #  e os adiciona na variável caminho
-          while self.caminho[0][:3] != self.tabuleiro:
-            ult_percorrido = self.percorridos[-1]
-
-            if self.isFim([ult_percorrido[0], ult_percorrido[1], ult_percorrido[2]]) == True:
-              self.caminho.insert(0,ult_percorrido[3])
-              
-            else:
-              for percorrido in self.percorridos:
-                if percorrido[:3] == self.caminho[0][:3]:
-                  if percorrido[:3] is not self.caminho: self.caminho.insert(0, percorrido[3])
-
-            self.percorridos.pop(-1)
           break
         #Se não for o estado final, gera os estados filhos e os adiciona ao início borda
         else: 
@@ -152,10 +153,15 @@ class AgentePrepostoEstrela(AgenteAbstrato):
           
           for filho in filhos:
             ja_percorrido = False
-            for percorrido in self.percorridos:
+            for percorrido in percorridos:
               if filho[:3] == percorrido[:3]: ja_percorrido = True
-            if ja_percorrido == False: self.borda.insert(0, filho)
-    
+            if ja_percorrido == False: borda.insert(0, filho)
+
+  def escolherProximaAcao(self):
+    #Verifica se o jogo ja foi resolvido
+    if not self.resolvido:
+      self.caminho = self.buscaEstrela(self.borda, self.tabuleiro, self.percorridos, self.caminho)
+
     acao = AcaoJogador.mover(self.caminho[0][3][0], self.caminho[0][3][1])
     self.caminho.pop(0)
     return acao

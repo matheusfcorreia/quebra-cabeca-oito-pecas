@@ -101,23 +101,24 @@ class AgentePrepostoDfs(AgenteAbstrato):
       percorridos.pop(-1)
     return caminho_aux
 
-  def escolherProximaAcao(self):
-    self.borda.insert(0, self.tabuleiro) 
+
+  def buscaDfs(self, borda, tabuleiro, percorridos, caminho):
+    borda.insert(0, tabuleiro) 
 
     #Verifica se o jogo ja foi resolvido
     if self.resolvido is False:
       #Percorre todos estados da borda até encontrar o estado final
-      while len(self.borda) > 0:
-        estado_temp = self.borda.pop(0)
-        self.percorridos.append(estado_temp)
+      while len(borda) > 0:
+        estado_temp = borda.pop(0)
+        percorridos.append(estado_temp)
 
         if self.isFim(estado_temp) == True: 
           self.resolvido = True
           print('Resolvi o puzzle!')
           print('Tentativas: ', len(self.jogadas))
           # Uni as referências até o estado final na variável caminho
-          self.tabuleiro.pop(3)
-          self.caminho = self.gerarCaminho(self.tabuleiro, self.caminho, self.percorridos)
+          tabuleiro.pop(3)
+          return self.gerarCaminho(tabuleiro, caminho, percorridos)
           
           break
         #Se não for o estado final, gera os estados filhos e os adiciona ao início borda
@@ -128,9 +129,15 @@ class AgentePrepostoDfs(AgenteAbstrato):
 
           for filho in filhos:
             ja_percorrido = False
-            for percorrido in self.percorridos:
+            for percorrido in percorridos:
               if filho[:3] == percorrido[:3]: ja_percorrido = True
-            if ja_percorrido == False: self.borda.insert(0, filho)
+            if ja_percorrido == False: borda.insert(0, filho)
+
+
+  def escolherProximaAcao(self):
+    #Verifica se o jogo ja foi resolvido
+    if self.resolvido is False:
+      self.caminho = self.buscaDfs(self.borda, self.tabuleiro, self.percorridos, self.caminho)
 
     acao = AcaoJogador.mover(self.caminho[0][3][0], self.caminho[0][3][1])
     self.caminho.pop(0)
