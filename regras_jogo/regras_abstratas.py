@@ -56,4 +56,4 @@ def construir_jogo(*args,**kwargs):
     parâmetros. Pode-se mudar à vontade a assinatura do método.
     """
     from regras_jogo.oito_pecas import OitoPecas
-    return OitoPecas()
+    return OitoPecas(args)

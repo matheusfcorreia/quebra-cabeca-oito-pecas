@@ -1,13 +1,14 @@
 from regras_jogo.regras_abstratas import AbstractRegrasJogo;
 
 class OitoPecas(AbstractRegrasJogo):
-  def __init__(self):
+  def __init__(self, agente):
     self.tabuleiro = [[1,4,2],[3,5,0],[6,7,8],[]]
     self.opcoes = []
     self.borda = []
     self.percorridos = []
     self.tentativas = 0
-    self.profundidade = input('Qual a profundidade máxima?  ')
+    if str(agente).__contains__('Automático DLS'):
+      self.profundidade = input('Qual a profundidade máxima?  ')
     # self.tabuleiro = [[6,2,7],[4,0,5],[8,1,3],[]]
     
   def registrarAgentePersonagem(self, personagem):

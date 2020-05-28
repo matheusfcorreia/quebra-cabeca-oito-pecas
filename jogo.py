@@ -16,11 +16,26 @@ def ler_tempo(em_turnos=False):
 
 
 def iniciar_jogo():
-    
   # Inicializar e configurar jogo
-  jogo = construir_jogo()
+  mensagem = """Selecione o agente: \n 1) Humano \n 2) Bfs \n 3) Dfs
+ 4) Dls \n 5) Ids \n 6) Guloso \n 7) Estrela \n """
+  agente_selecionado = input(mensagem)
+
+  switcher = {
+    1: TiposAgentes.PREPOSTO_HUMANO,
+    2: TiposAgentes.AUTO_BFS,
+    3: TiposAgentes.AUTO_DFS,
+    4: TiposAgentes.AUTO_DLS,
+    5: TiposAgentes.AUTO_IDS,
+    6: TiposAgentes.AUTO_GULOSO,
+    7: TiposAgentes.AUTO_ESTRELA
+  }
+  
+  tipo_agente = switcher.get(int(agente_selecionado), 'Input inválido')
+  
+  jogo = construir_jogo(tipo_agente)
   personagem_jogador = jogo.registrarAgentePersonagem(Personagens.O_JOGADOR)
-  agente_jogador = construir_agente(TiposAgentes.AUTO_DLS, Personagens.O_JOGADOR)
+  agente_jogador = construir_agente(tipo_agente, Personagens.O_JOGADOR)
   
   tempo_de_jogo = 0
   while not jogo.isFim():
