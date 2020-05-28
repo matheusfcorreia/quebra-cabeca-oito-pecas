@@ -43,3 +43,12 @@ Em casos que não há uma diminuição visível no número de peças fora de pos
 #### Avaliação da Heurística
 
 Apesar de ser uma heurística bem simples, é totalmente válida e consistente, por conta da busca direta pelo posicionamento ideal das peças. Combinada com um algorítmo de busca com memória, torna-se uma estratégia bem viável, evitando loopings e indo direto ao ponto final desejado, diminuindo o deperdício de recursos na aberto de estados desnecessários.
+
+
+### > **Diagramas**
+
+**Diagrama de Pacotes**
+![Resultados de Ações na Prática](/assets/pacotes.png)
+
+**Diagrama de Classes**
+![Exemplo de Árvore até o Objetivo](/assets/classes.png)
