@@ -47,7 +47,7 @@ Apesar de ser uma heurística bem simples, é totalmente válida e consistente, 
 
 ### > **Diagramas**
 
-**Diagrama de Pacotes**
+**Diagrama de Pacotes**               
 ![Resultados de Ações na Prática](/assets/pacotes.png)
 
 **Diagrama de Classes**
