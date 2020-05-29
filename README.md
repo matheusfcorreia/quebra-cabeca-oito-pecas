@@ -48,7 +48,10 @@ Apesar de ser uma heurística bem simples, é totalmente válida e consistente, 
 ### > **Diagramas**
 
 **Diagrama de Pacotes**               
-![Resultados de Ações na Prática](/assets/pacotes.png)
+![Diagrama de Pacotes](/assets/pacotes.png)
 
-**Diagrama de Classes**
-![Exemplo de Árvore até o Objetivo](/assets/classes.png)
+**Diagrama de Classes**          
+![Diagrama de Classes](/assets/classes.png)
+
+**Diagrama de Sequencia**            
+![Diagrama de Sequencia](/assets/sequencia.png)
