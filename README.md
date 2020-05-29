@@ -54,4 +54,4 @@ Apesar de ser uma heurística bem simples, é totalmente válida e consistente, 
 ![Diagrama de Classes](/assets/classes.png)
 
 **Diagrama de Sequencia**            
-![Diagrama de Sequencia](/assets/sequencia.png)
+![Diagrama de Sequencia](/assets/sequencia.PNG)
