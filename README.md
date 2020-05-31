@@ -2,6 +2,13 @@
 
 Projeto desenvolvido na disciplina de Inteligencia Artificial, onde o jogo 8 Puzzle foi implementado junto com algumas aplicações de métodos de busca e agentes inteligentes para a resolução do jogo. 
 
+### > **Execução**
+Execute:
+
+  >python3 jogo.py para iniciar o jogo.
+  
+Selecione o timo de agente e prossiga.
+
 ### > **Linguagem Representativa** 
 Estado inicial: OitoPecas([[5, 6, vazio], [8, 4, 7], [2, 3, 1]]);  
 (Sendo vazio = 0)
