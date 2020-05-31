@@ -5,9 +5,9 @@ Projeto desenvolvido na disciplina de Inteligencia Artificial, onde o jogo 8 Puz
 ### > **Execução**
 Execute:
 
-  >python3 jogo.py para iniciar o jogo.
+  >python3 jogo.py
   
-Selecione o timo de agente e prossiga.
+Selecione o tipo de agente e prossiga.
 
 ### > **Linguagem Representativa** 
 Estado inicial: OitoPecas([[5, 6, vazio], [8, 4, 7], [2, 3, 1]]);  
